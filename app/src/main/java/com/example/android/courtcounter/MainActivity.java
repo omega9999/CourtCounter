@@ -21,85 +21,65 @@ public class MainActivity extends AppCompatActivity {
         this.mScoreViewB = findViewById(R.id.team_b_score);
 
         if (savedInstanceState != null) { // maintain state if rotate device
-            mActivityState = savedInstanceState.getParcelable(ACTIVITY_STATE);
+            final Parcelable parcelable = savedInstanceState.getParcelable(ACTIVITY_STATE);
+            if (parcelable instanceof WrapperParcellable){
+                mActivityState = ((WrapperParcellable<ActivityState>)parcelable).getSerializable();
+            }
         }
         else{
-            mActivityState = new ActivityState(null);
+            mActivityState = new ActivityState();
         }
         updateUI();
     }
 
     private void updateUI() {
-        mScoreViewA.setText(String.valueOf(this.mActivityState.mScoreTeamA));
-        mScoreViewB.setText(String.valueOf(this.mActivityState.mScoreTeamB));
+        mScoreViewA.setText(String.valueOf(this.mActivityState.getScoreTeamA()));
+        mScoreViewB.setText(String.valueOf(this.mActivityState.getScoreTeamB()));
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         // save state of app for rotate
-        outState.putParcelable(ACTIVITY_STATE, this.mActivityState);
+        outState.putParcelable(ACTIVITY_STATE, new WrapperParcellable<>(this.mActivityState));
         super.onSaveInstanceState(outState);
     }
 
     public void addThreeForTeamA(View view) {
-        this.mActivityState.mScoreTeamA += 3;
+        this.mActivityState.addScoreTeamA(3);
         updateUI();
     }
 
     public void addTwoForTeamA(View view) {
-        this.mActivityState.mScoreTeamA += 2;
+        this.mActivityState.addScoreTeamA(2);
         updateUI();
     }
 
     public void addOneForTeamA(View view) {
-        this.mActivityState.mScoreTeamA += 1;
+        this.mActivityState.addScoreTeamA(1);
         updateUI();
     }
 
     public void addThreeForTeamB(View view) {
-        this.mActivityState.mScoreTeamB += 3;
+        this.mActivityState.addScoreTeamB(3);
         updateUI();
     }
 
     public void addTwoForTeamB(View view) {
-        this.mActivityState.mScoreTeamB += 2;
+        this.mActivityState.addScoreTeamB(2);
         updateUI();
     }
 
     public void addOneForTeamB(View view) {
-        this.mActivityState.mScoreTeamB += 1;
+        this.mActivityState.addScoreTeamB(1);
         updateUI();
     }
 
     public void resetScore(View view) {
-        this.mActivityState.mScoreTeamA = 0;
-        this.mActivityState.mScoreTeamB = 0;
+        this.mActivityState.setScoreTeamA(0).setScoreTeamB(0);
         updateUI();
     }
 
-    @SuppressLint("ParcelCreator")
-    private class ActivityState implements Serializable, Parcelable {
-        private int mScoreTeamA = 0;
-        private int mScoreTeamB = 0;
 
-        ActivityState(Parcel in) {
-            if (in != null) {
-                this.mScoreTeamA = in.readInt();
-                this.mScoreTeamB = in.readInt();
-            }
-        }
-
-        @Override
-        public int describeContents() {
-            return Parcelable.CONTENTS_FILE_DESCRIPTOR;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(this.mScoreTeamA);
-            dest.writeInt(this.mScoreTeamB);
-        }
-    }
 
     private TextView mScoreViewA;
     private TextView mScoreViewB;
