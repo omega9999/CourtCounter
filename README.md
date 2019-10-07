@@ -11,7 +11,7 @@ Casi risolti:
 
 TODO:
 1) sostituire i vari layout con le ConstraintLayout (vedere https://github.com/chrisbanes/cheesesquare)
-2) salvataggio stato di sessione con viewmodel, vedi https://codelabs.developers.google.com/codelabs/android-lifecycles/index.html#0
+2) salvataggio stato di sessione con viewmodel, vedi https://codelabs.developers.google.com/codelabs/android-lifecycles/index.html#0 e https://developer.android.com/guide/components/activities/activity-lifecycle.html#saras
 
 Progetti come esercizio:
 Score Keeper: https://review.udacity.com/#!/rubrics/157/view
